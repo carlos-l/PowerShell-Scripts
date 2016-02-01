@@ -24,3 +24,8 @@ https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0c
 
 ### Demo
 ![](demo.gif)
+
+### Change Control
+
+| Version | Date | Description
+| 1.0 | 1/2/2016 | Initial Release
