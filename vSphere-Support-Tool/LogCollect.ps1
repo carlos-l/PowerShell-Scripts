@@ -2,7 +2,7 @@
 #            --           Vmware Log Collector     --
 ########################################################################
 # 
-# Name:          VMWare Log Collector
+# Name:          vSphere Log Collector
 # Date:          28/1/2016
 # Author:        Carl Liebich
 # Source:        https://github.com/carlos-l/PowerShell-Scripts/
