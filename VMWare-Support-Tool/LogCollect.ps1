@@ -19,12 +19,16 @@
 # from vCenter or ESXi and uploading directly via FTP to VMWare. 
 ########################################################################
 
+# Set the Path to the vCenter CSV file here:
+$customerlist = import-csv -Path "C:\Scripts\CustomerList.csv"
+
+########################################################################
 
 Import-Module PSFTP
 if ( !(Get-Module -Name VMware.VimAutomation.Core -ErrorAction SilentlyContinue) ) {
 . “C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1”
 }
-$customerlist = import-csv -Path "C:\Scripts\CustomerList.csv"
+
 $host.ui.RawUI.WindowTitle = "VMWare Support Log Collector"
 clear
 write-host "----------------------------------------------------------------" -ForegroundColor DarkMagenta
@@ -34,7 +38,7 @@ write-host " "
 write-host " "
 write-host " "
 $wshell = New-Object -ComObject Wscript.Shell
-$wshell.Popup("A list of customers will be presented. Please select the customer you would like to collect logs from and press OK",0,"Information",0x0) | out-null
+$wshell.Popup("A list of vCenter servers will be presented. Please select the vCenter server you would like to collect logs from and press OK",0,"Information",0x0) | out-null
 $customer = $customerlist | Out-GridView -PassThru -Title "vCenter Server List"
 $name=$customer.name
 $username=$customer.UserName
@@ -61,7 +65,7 @@ write-host $username -ForegroundColor yellow
 CLEAR
 write-host " "
 write-host "----------------------------------------------------------------------" -ForegroundColor Yellow
-write-host "             COLT Private Cloud - VMware Log Collector"
+write-host "                     vSphere Support Log Collector"
 write-host "----------------------------------------------------------------------" -ForegroundColor Yellow
     
 try{
