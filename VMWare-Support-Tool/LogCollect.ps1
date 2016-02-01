@@ -10,7 +10,7 @@
 ########################################################################
 #
 # Change Control
-# Version:         1.0
+# Version:        1.0
 # Updated by:     Carl Liebich
 # Revision Notes: Initial release
 #
