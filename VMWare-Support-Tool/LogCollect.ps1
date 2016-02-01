@@ -5,11 +5,12 @@
 # Name:          VMWare Log Collector
 # Date:          28/1/2016
 # Author:        Carl Liebich
+# Source:        https://github.com/carlos-l/PowerShell-Scripts/
 # 
 ########################################################################
 #
 # Change Control
-# Version         1.0
+# Version:         1.0
 # Updated by:     Carl Liebich
 # Revision Notes: Initial release
 #
@@ -24,7 +25,7 @@ if ( !(Get-Module -Name VMware.VimAutomation.Core -ErrorAction SilentlyContinue)
 . “C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\Scripts\Initialize-PowerCLIEnvironment.ps1”
 }
 $customerlist = import-csv -Path "C:\Scripts\CustomerList.csv"
-
+$host.ui.RawUI.WindowTitle = "VMWare Support Log Collector"
 clear
 write-host "----------------------------------------------------------------" -ForegroundColor DarkMagenta
 write-host "                vSphere Support Bundle Collector"
