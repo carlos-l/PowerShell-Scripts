@@ -13,4 +13,5 @@ This is a simple powershell script to help automate the process of (1) collect t
 https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0cb
 * Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 
 
-
+### Demo
+![](demo.gif)
