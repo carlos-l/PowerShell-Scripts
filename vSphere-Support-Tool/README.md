@@ -13,7 +13,7 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 
 ### Warning and Disclaimer
-* Please note that FTP uploads are not encrypted.
+* Please note that FTP uploads are *not* encrypted.
 
 ### Requirements 
 
