@@ -30,3 +30,8 @@ https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0c
 | Version | Date | Description
 | ------- | -------- | ------------------ |
 | 1.0 | 1/2/2016 | Initial Release
+
+### Upcoming Features
+
+- CSV file validation
+- Use SFTP instead of FTP to support encryption (KB2069559)
