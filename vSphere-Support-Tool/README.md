@@ -20,7 +20,7 @@ This is a simple powershell script to help automate the process of (1) collect t
 * PowerCLI 6
 * This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
 * Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
-~~* This script leverages the PowerShell FTP Client Module. Please make sure to install the module before use. 
+* ~~This script leverages the PowerShell FTP Client Module. Please make sure to install the module before use. 
 https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0cb~~
 
 
