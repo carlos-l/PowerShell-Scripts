@@ -271,19 +271,6 @@ if ( $answer2 -eq "e" -or $answer2 -eq "E"-or $answer2 -eq "a" -or $answer2 -eq 
         }
     }
 
-
-#############################################################################################################
-##                                  Generate checksums in MD5 and SHA1
-#############################################################################################################
-
-
-        # Generate MD5 and SHA1 checksums
-        $files = get-childitem -Path $logDirectory
-        foreach ($file in $files){
-                $file | Get-FileHash -Algorithm MD5 | select Hash | out-file "$file.md5" -Append
-                $file | Get-FileHash -Algorithm SHA1 | select Hash | out-file "$file.sha1" -Append
-        }
-
 <#
 #############################################################################################################
 ##                              Upload logs via FTP (Unencrypted)
@@ -323,19 +310,15 @@ if ( $ftpupload -eq "y" -or $ftpupload -eq "Y") {
         write-host "Creating directory $ticketnumber..."
         New-SFTPItem -SFTPSession $sessionID -ItemType Directory -Path "/$ticketnumber" -ErrorAction SilentlyContinue  
         $files = get-childitem $logDirectory | Sort-Object Length
-
+                
         foreach ($file in $files) {
             write-host "Now transfering $file..."
             Set-SFTPFile  -SFTPSession $sessionID -LocalFile $logDirectory\$file -RemotePath /$ticketnumber -Overwrite -Verbose -InformationAction SilentlyContinue -WarningAction SilentlyContinue
         }
 
         write-host " "
-        get-sftpsession | Remove-SFTPSession | Out-Null
         write-host "Log upload is complete. Please review the output to verify upload was successful. "
-}
-
-        
-
+        }
 
 write-host " "
 write-host "Process has been completed. Press any key to exit. " -ForegroundColor Yellow
