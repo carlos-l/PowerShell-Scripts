@@ -36,5 +36,7 @@ https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0c
 
 ### Upcoming Features
 
-- CSV file validation
-- Use SFTP instead of FTP to support encryption (KB2069559)
+- CSV file validation - Done v1.1
+- Use SFTP instead of FTP to support encryption (KB2069559) - Done v1.1
+- Generate MD5 and SHA1 for Vmware to verify file integrity - Done v1.1
+
