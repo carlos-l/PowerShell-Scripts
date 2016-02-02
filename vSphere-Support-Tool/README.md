@@ -29,6 +29,7 @@ https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0c
 
 | Version | Date | Description
 | ------- | -------- | ------------------ |
+| 1.1 | 2/2/2016 | Added SFTP support and now transfer are encryped. Better error handling. 
 | 1.0 | 1/2/2016 | Initial Release
 
 ### Upcoming Features
