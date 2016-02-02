@@ -13,14 +13,16 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 
 ### Warning and Disclaimer
-* Please note that FTP uploads are *not* encrypted (encryption comming soon!)
+* ~~Please note that FTP uploads are *not* encrypted (encryption comming soon!)~~ Fixed in version 1.1
 
 ### Requirements 
 
 * PowerCLI 6
-* This script leverages the PowerShell FTP Client Module. Please make sure to install the module before use. 
-https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0cb
+* This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
 * Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
+~~* This script leverages the PowerShell FTP Client Module. Please make sure to install the module before use. 
+https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0cb~~
+
 
 ### Demo
 ![](demo.gif)
