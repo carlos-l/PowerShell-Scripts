@@ -1,3 +1,4 @@
+
 ########################################################################
 #            --           vSphere Log Collector     --
 ########################################################################
@@ -14,6 +15,9 @@ Source:        https://github.com/carlos-l/PowerShell-Scripts/
 __________________________________________________________________________
 
                               Change Control
+Version 1.2 - 2/3/2016
+- Generation of MD5 and SHA1 hash to upload with logs
+- Corrected bug for uploading logs question. 
 
 Version 1.1 - 2/2/2016
 - Replaced FTP with SFTP (Posh-SSH Module) for encrypted uploads
@@ -32,7 +36,6 @@ $csvlist = "C:\Scripts\vcenter-list.csv"
 
 ########################################################################
 
-
 $csvcheck = test-path -Path "$csvlist"
 if ($csvcheck -eq $False ) {
     write-host "ERROR: CSV file doesn't exisit, the script will now exit" -ForegroundColor "Red"
@@ -43,14 +46,11 @@ else{
     $customerlist = import-csv -Path "$csvlist"
     }
 
-
-
 ########################################################################
-
 
 $module = "Posh-SSH"
 $moduleError = "ERROR: Posh-SSH has not be install on this PC. Please visit https://github.com/darkoperator/Posh-SSH to install the missing module"
-
+Add-Type -AssemblyName System.Windows.Forms
 if (Get-Module -ListAvailable -Name $module) {
     Import-Module -Name $module
     }else 
@@ -70,10 +70,6 @@ if (Get-Module -ListAvailable -Name $module) {
         PAUSE
         EXIT
 }
-
-
-# Old module for encrypted FTP uploads
-# Import-Module PSFTP
 
 
 $host.ui.RawUI.WindowTitle = "VMWare Support Log Collector"
@@ -105,10 +101,10 @@ write-host $name -ForegroundColor Cyan
 write-host $vcenter -ForegroundColor Red
 write-host $username -ForegroundColor yellow
 
-
 #############################################################################################################
 ##                                       Connect to vCenter
 #############################################################################################################
+
 CLEAR
 write-host " "
 write-host "----------------------------------------------------------------------" -ForegroundColor Yellow
@@ -139,7 +135,6 @@ write-host " "
 ##                               Configure logging directory
 #############################################################################################################
 
-
 New-Item "$env:PUBLIC\Documents\VMware Support Logs" -ItemType directory -ErrorAction Ignore | Out-Null
 $logpath="$env:PUBLIC\Documents\VMware Support Logs"
 
@@ -155,10 +150,10 @@ CD $logdirectory
 write-host " "
 write-host " " 
 
-
 #############################################################################################################
 ##                                      Log Collection Menu Preference
 #############################################################################################################
+
 write-host " "
 write-host " Please select your logging options for the menu below:"
 write-host "----------------------------------------------------------------------" -ForegroundColor Yellow
@@ -171,26 +166,33 @@ write-host " "
 write-host "If you are unsure please select [E]verything " -ForegroundColor green
 write-host " "
 $answer2=read-host "1. Type the letter for preference of log collection (v,e,s,a)" 
-
-#write-host "Warning: To upload to VMWare pleas make sure you have the SR number ready" -ForegroundColor Yellow
 $ftpupload=read-host "2. If you have a open case with VMWare do you want to upload the logs?(y/n)" 
 if ( $ftpupload -eq "y" -or $ftpupload -eq "Y") {
+       $getcred = Get-Credential -UserName inbound -Message "                  Password for VMWare's SFTP website 
+                                        >>> The password is 'inbound' <<<"
        Do { 
-            $regex="[0-9]{11}"
+            $regex="^[0-9]{11}$"
             $ticketnumber = read-host "3. Please enter the VMWare SR number of the case (11 digit SR number only!)"
             $check = $ticketnumber -match $regex
             } while ($check -eq $False)
            }
-
-       # No Proxy configuration
-       # $getcred = Get-Credential -UserName inbound -Message "Password for VMWare FTP website 
-       $getcred = Get-Credential -UserName inbound -Message "                  Password for VMWare's SFTP website 
-                                        >>> The password is 'inbound' <<<"
-       write-host " "
-       
-
-write-host "---      Please note that log collecting can take quite alot of time....    ----" -ForegroundColor Black -BackgroundColor Yellow
+CLEAR
 write-host " "
+write-host " "
+write-host " "
+write-host " "
+write-host " "
+write-host " "
+write-host " "
+write-host "----------------------------------------------------------------" -ForegroundColor Yellow
+write-host "                vSphere Support Log Collector"
+write-host "----------------------------------------------------------------" -ForegroundColor Yellow
+write-host " "
+write-host "---                                                                  ----" -ForegroundColor Black -BackgroundColor Yellow
+write-host "---      Please note that log collecting will take along time....    ----" -ForegroundColor Black -BackgroundColor Yellow
+write-host "---                                                                  ----" -ForegroundColor Black -BackgroundColor Yellow
+write-host " "
+
 #############################################################################################################
 ##                                              vCenter Only
 #############################################################################################################
@@ -199,9 +201,10 @@ if ( $answer2 -eq "v" -or $answer2 -eq "V" -or $answer2 -eq "E" -or $answer2 -eq
     {
     write-host " "
     write-host "Collecting vCenter logs from $vcenter please wait...."
-    Get-Log -Bundle -DestinationPath $logdirectory | Format-Table -AutoSize -Wrap 
+    Get-Log -Bundle -DestinationPath $logdirectory | Out-Null 
     write-host "vCenter collection process completed!" -ForegroundColor Green
     }
+
 #############################################################################################################
 ##                                             Single ESXi Host
 #############################################################################################################
@@ -247,8 +250,6 @@ if ( $answer2 -eq "s" -or $answer -eq "S" )
 ##                                             All ESXi Hosts
 #############################################################################################################
 
-
-
 if ( $answer2 -eq "e" -or $answer2 -eq "E"-or $answer2 -eq "a" -or $answer2 -eq "A" ) 
     {
     $allhost = Get-VMHost
@@ -265,54 +266,29 @@ if ( $answer2 -eq "e" -or $answer2 -eq "E"-or $answer2 -eq "a" -or $answer2 -eq 
             write-host " "
             write-host "Collecting logs for $allhost..."
             get-vmhost $allhost | Get-Log -Bundle -DestinationPath $logdirectory | Format-Table -AutoSize -Wrap | Out-Null
-            write-host "Host log collection process completed!" -ForegroundColor Green
-            write-host " "
-
+            write-host "Host log collection completed." -ForegroundColor Green
         }
     }
-
 
 #############################################################################################################
 ##                                  Generate checksums in MD5 and SHA1
 #############################################################################################################
 
-
-        # Generate MD5 and SHA1 checksums
-        $files = get-childitem -Path $logDirectory
-        foreach ($file in $files){
-                $file | Get-FileHash -Algorithm MD5 | select Hash | out-file "$file.md5" -Append
-                $file | Get-FileHash -Algorithm SHA1 | select Hash | out-file "$file.sha1" -Append
-        }
-
-<#
-#############################################################################################################
-##                              Upload logs via FTP (Unencrypted)
-#############################################################################################################
+$files = Get-ChildItem "$logdirectory" -File
+$hashes = foreach ($file in $Files){
+    Write-Output (New-Object -TypeName PSCustomObject -Property @{
+        FileName = $file.Name
+        MD5 = Get-FileHash $file.Name -Algorithm MD5 | Select-Object -ExpandProperty Hash
+        SHA1 = Get-FileHash $file.Name -Algorithm SHA1 | Select-Object -ExpandProperty Hash
+        })
+}
+$hashes | select FileName,MD5,SHA1 | Export-Csv -NoTypeInformation -Path "$logDirectory\checksum.csv"
 
 invoke-item $logDirectory
-
-if ( $ftpupload -eq "y" -or $ftpupload -eq "Y") {
-        write-host " "
-        write-host "Now connecting to VMWare's FTP Site to upload the logs..." -ForegroundColor Green
-        set-ftpconnection -ignoreCert $getcred -KeepAlive -Server ftp://ftpsite.vmware.com -Session VMWARE -UsePassive -UseBinary -Verbose
-        $ftpsession = Get-FTPConnection -Session VMWARE
-        New-FTPItem -Session $ftpsession -Name $ticketnumber -Verbose
-        get-childitem $logDirectory | Send-FTPItem -Path /$ticketnumber -Session VMWARE -Verbose -Overwrite
-        write-host " "
-        write-host "Log upload is complete. Please review the output to verify upload was successful. "
-
-        }
-
-write-host " "
-write-host "Process has been completed. Press any key to exit. " -ForegroundColor Yellow
-PAUSE
-#>
 
 #############################################################################################################
 ##                                         Upload via SFTP
 #############################################################################################################
-
-invoke-item $logDirectory
 
 if ( $ftpupload -eq "y" -or $ftpupload -eq "Y") {
         write-host " "
@@ -334,9 +310,12 @@ if ( $ftpupload -eq "y" -or $ftpupload -eq "Y") {
         write-host "Log upload is complete. Please review the output to verify upload was successful. "
 }
 
-        
+Disconnect-VIServer * -Confirm:$False
 
 
-write-host " "
-write-host "Process has been completed. Press any key to exit. " -ForegroundColor Yellow
-PAUSE
+$prompt = [System.Windows.Forms.MessageBox]::Show('Log collection has been completed. Press OK to exit.' , 'Complete')
+if ($prompt -eq "OK"){
+    EXIT
+    }
+
+#############################################################################################################
