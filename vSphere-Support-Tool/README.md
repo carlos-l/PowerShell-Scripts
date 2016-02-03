@@ -3,6 +3,12 @@
 
 This is a simple powershell script to help automate the process of (1) collect the vCenter or ESXi support logs and (2) uploading directly to VMWare via SFTP. A good use case of this would be for users managing multiple vCenter installations as the tool will dislpay a list of vCenters to connect to from a CSV file. 
 
+### Requirements 
+
+* PowerCLI 6 (Should work on previous released but I have not tested. 
+* This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
+* Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
+
 ### Getting Started
 
 1. Download the PS1 and CSV files from the repo
@@ -11,15 +17,15 @@ This is a simple powershell script to help automate the process of (1) collect t
 4. Add you vCenters into the CSV file.
 5. Right click on the script and select "Run with PowerShell"
 
+### Make a shortcut
+* Shortcut should be created with the following target:
+%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ""[Path to script]\log-collect.ps1""
+
+
 ### Warning and Disclaimer
 * By using this script you accept and risks to your enviroment. As always test before using in production.
 * Uploads to VMWare are encrypted over FTPS
 
-### Requirements 
-
-* PowerCLI 6 (Should work on previous released but I have not tested. 
-* This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
-* Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
 
 ### Demo
 ![](demo.gif)
