@@ -45,3 +45,7 @@ This is a simple powershell script to help automate the process of (1) collect t
 - Use SFTP instead of FTP to support encryption (KB2069559) - Done v1.1
 - Generate MD5 and SHA1 for Vmware to verify file integrity - Done v1.2
 
+### Credits
+
+Thanks goes out to the reddit.com/r/powershell community who have always helped out when I got stuck. 
+
