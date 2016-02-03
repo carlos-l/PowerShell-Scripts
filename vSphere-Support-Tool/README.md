@@ -28,7 +28,7 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 | Version | Date | Description
 | ------- | -------- | ------------------ |
-| 1.2 | 2/3/2016 | Added better MD5 and SHA1 generation and will be uploaded with the support bundles for VMWARE to verifty. 
+| 1.2 | 2/3/2016 | Added better MD5 and SHA1 generation and will be uploaded with the support bundles for Vmware to verify. 
 | 1.1 | 2/2/2016 | Swithced from FTP to SFTP to support encryption
 | 1.0 | 1/2/2016 | Initial Release
 
