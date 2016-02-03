@@ -1,7 +1,7 @@
 #vSphere Support Log Collector
 
 
-This is a simple powershell script to help automate the process of (1) collect the vCenter or ESXi support logs and (2) uploading directly to VMWare via FTP. A good use case of this would be for users managing multiple vCenter installations as the tool will dislpay a list of vCenters to connect to from a CSV file. 
+This is a simple powershell script to help automate the process of (1) collect the vCenter or ESXi support logs and (2) uploading directly to VMWare via SFTP. A good use case of this would be for users managing multiple vCenter installations as the tool will dislpay a list of vCenters to connect to from a CSV file. 
 
 ### Getting Started
 
@@ -11,18 +11,15 @@ This is a simple powershell script to help automate the process of (1) collect t
 4. Add you vCenters into the CSV file.
 5. Right click on the script and select "Run with PowerShell"
 
-
 ### Warning and Disclaimer
-* ~~Please note that FTP uploads are *not* encrypted (encryption comming soon!)~~ Fixed in version 1.1
+* By using this script you accept and risks to your enviroment. As always test before using in production.
+* Uploads to VMWare are encrypted over FTPS
 
 ### Requirements 
 
-* PowerCLI 6
+* PowerCLI 6 (Should work on previous released but I have not tested. 
 * This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
 * Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
-* ~~This script leverages the PowerShell FTP Client Module. Please make sure to install the module before use. 
-https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0cb~~
-
 
 ### Demo
 ![](demo.gif)
@@ -31,7 +28,8 @@ https://gallery.technet.microsoft.com/scriptcenter/PowerShell-FTP-Client-db6fe0c
 
 | Version | Date | Description
 | ------- | -------- | ------------------ |
-| 1.1 | 2/2/2016 | Added SFTP support and now transfer are encryped. Better error handling. 
+| 1.2 | 2/2/2016 | Added better MD5 and SHA1 generation and will be uploaded with the support bundles for VMWARE to verifty. 
+| 1.1 | 2/2/2016 | Swithced from FTP to SFTP to support encryption
 | 1.0 | 1/2/2016 | Initial Release
 
 ### Upcoming Features
