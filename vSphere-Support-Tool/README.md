@@ -47,5 +47,4 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 ### Credits
 
-Thanks goes out to the reddit.com/r/powershell community who have always helped out when I got stuck. 
-
+Thanks goes out to the reddit.com/r/powershell community who have always been a fantastic help and resource. 
