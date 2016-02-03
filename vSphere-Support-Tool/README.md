@@ -5,7 +5,7 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 ### Requirements 
 
-* PowerCLI 6 (Should work on previous released but I have not tested. 
+* PowerCLI 6 (Previous version should work)
 * This script requires the use of Posh-SSH (https://github.com/darkoperator/Posh-SSH)
 * Tested on Powershell v4.0, PowerCLI 6.0 R3 with ESXi 5.5 and ESXi 6.x
 
@@ -18,9 +18,10 @@ This is a simple powershell script to help automate the process of (1) collect t
 5. Right click on the script and select "Run with PowerShell"
 
 ### Make a shortcut
-* Shortcut should be created with the following target:
-%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -noexit -command ""[Path to script]\log-collect.ps1""
-
+* A shortcut can be created using the following target path.
+```
+%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -command ""[Path to script]\log-collect.ps1""
+```
 
 ### Warning and Disclaimer
 * By using this script you accept and risks to your enviroment. As always test before using in production.
@@ -42,5 +43,5 @@ This is a simple powershell script to help automate the process of (1) collect t
 
 - CSV file validation - Done v1.1
 - Use SFTP instead of FTP to support encryption (KB2069559) - Done v1.1
-- Generate MD5 and SHA1 for Vmware to verify file integrity - Done v1.1
+- Generate MD5 and SHA1 for Vmware to verify file integrity - Done v1.2
 
